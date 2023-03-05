@@ -1,53 +1,24 @@
-function permutate(arr) {
-    const result = [];
-    //DFS
-    const dfs = (i, arr) => {
-      // base condition
-      if (i === arr.length) {
-        return result.push([...arr]);
-      }
-  
-      for (let j = i; j < arr.length; j++) {
-        //swap
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-        //dfs
-        dfs(i + 1, arr);
-        //swap back
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-    };
-    dfs(0, arr);
-    return result;
-}
-
-
 function solution(k, dungeons) {
-    //순서를 나타낼 배열 생성
-    var orderArr = new Array(dungeons.length);
-    for( var i =0;i<orderArr.length;i++){
-        orderArr[i]=i;
-    }
-    //그 순서를 순열로 가능한 순서 다 구함
-    permutateArr = permutate(orderArr);
-    var max_Count = 0;
-    for(var i = 0;i<permutateArr.length;i++){
-        var sum = k;
-        var count = 0;
-        for(var permutateIndex = 0;permutateIndex<permutateArr[i].length;permutateIndex++){
-            //최소 조건 체크
-            if(sum>=dungeons[permutateArr[i][permutateIndex]][0]){
-                sum-=dungeons[permutateArr[i][permutateIndex]][1];
-                count++;
-            }
-            else{
-                break;
-            }
+    var answer = 0;
+    var len = dungeons.length;
+    //방문했는지 체크하는 배열 0-> 방문X 1-> 방문O
+    var visit = new Array(len).fill(0);
+    
+    function dfs(sum,count){
+        if(count>answer){
+            answer = count;
         }
-        
+        for(var i = 0; i<len;i++){
+            if(sum>=dungeons[i][0]&&visit[i]===0){
+                visit[i] = 1;
+                dfs(sum-dungeons[i][1],count+1)
+                visit[i] = 0;
+            }
+            
+        }
+    }
 
-        if(max_Count<count){
-            max_Count=count;
-        }
-    }
-    return max_Count;
+    dfs(k,0);
+    
+    return answer;
 }
