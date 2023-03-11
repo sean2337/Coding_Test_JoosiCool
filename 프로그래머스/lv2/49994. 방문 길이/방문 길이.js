@@ -35,7 +35,7 @@ function solution(dirs) {
             location[0]--;
         }
     })
-    return Math.ceil(set.size/2);
+    return set.size/2;
 }
 
 console.log(solution("ULURRDLLU"));
