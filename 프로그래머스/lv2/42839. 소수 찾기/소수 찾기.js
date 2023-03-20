@@ -1,11 +1,8 @@
 
 
 function solution(numbers) {
-    //숫자 쪼개기
     numbers = numbers.split("");
-    //Set함수로 중복 제거
     var output = new Set();
-    //완전 탐색 순열 함수 
     function Permutation(leftoverArr,arr,output){
         //leftoverArr => 잔여 배열 남은거, arr = > 담긴 배열
         if(leftoverArr.length===0){
@@ -24,10 +21,6 @@ function solution(numbers) {
     Permutation(numbers,[],output);
     var answer = output.size;
     for (let item of output){
-        if(item===1||item===0){
-            answer--;
-            continue;
-        }
         var divCheck = 0;
         for(var div = 2;div<=item;div++){
             if(item%div===0){
