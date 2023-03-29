@@ -1,56 +1,80 @@
 function solution(orders, course) {
     var answer = [];
+    var pushString = "";
+    var pushArr = [];
 
-    const getCombinations = function (arr, selectNumber) {
-        const results = [];
-        if (selectNumber === 1) return arr.map((el) => [el]); 
-        // n개중에서 1개 선택할 때(nC1), 바로 모든 배열의 원소 return
+    // sum은 빈 문자열, index =0 초기 인덱스로 설정 count는 몇개까지 할껀지, 검색할 단어를 eachCourse로 둠.
+    function dfs(sum,index,count,eachCourse){
     
-        arr.forEach((fixed, index, origin) => {
-          const rest = origin.slice(index + 1); 
-          const combinations = getCombinations(rest, selectNumber - 1); 
-          const attached = combinations.map((el) => [fixed, ...el]); 
-          results.push(...attached); 
-          
-        });
-        return results;
+        if(sum.length===count){
+            pushArr.push(sum);
+            return;
+        }
+        for(var i = index;i<eachCourse.length;i++){
+            dfs(sum+=eachCourse[i],i+1,count,eachCourse);
+            sum = sum.slice(0,-1);
+        }
     }
 
 
-    course.forEach((count)=>{
-        var hashMap = new Map();
-        orders.forEach((element)=>{
-            element = element.split("");
-            var divArr = getCombinations(element,count);
-            for(var index = 0;index<divArr.length;index++){
-                var word = divArr[index].sort().join("");
-                // 있다면?
-                if(hashMap.has(word)){
-                    hashMap.set(word,hashMap.get(word)+1);
-                }
-                
-                //없다면?
-                else{
-                    hashMap.set(word,1);
-                }
-            }            
-        })
 
-        //최대 구하기
-        var maxValue = 0;
-        for(let [key,value] of hashMap){
-            if(maxValue<value&&key.length>=2&&value>=2){
-                maxValue = value;
-            }
+    //2 3 4 에서 2라면 2개씩 잘라서 배열에 넣음.
+    course.forEach(count => {
+        orders.forEach(courses=>{
+            dfs(pushString,0,count,courses);
+        })   
+    });
+
+
+    var hashMap = new Map();
+    for(var i =0; i<pushArr.length-1;i++){
+        
+        if(hashMap.has(pushArr[i])){
+            hashMap.set(pushArr[i],hashMap.get(pushArr[i])+1);
+        }
+        else{
+            hashMap.set(pushArr[i],1);
         }
 
-        for(let [key,value] of hashMap){
-            if(maxValue===value){
-                answer.push(key);
+        if(pushArr[i].length!==pushArr[i+1].length){
+            var maxValue = 0;
+            for (let [key, value] of hashMap) {
+                if(maxValue<value&&key.length>=2&&value>1){
+                    maxValue = value;
+                }
             }
+
+            for (let [key, value] of hashMap) {
+                if(maxValue === value){
+                    answer.push(key);
+                }
+            }
+
+            hashMap.clear();
         }
-        //console.log(hashMap);
-        hashMap.clear();
-    })
+    }
+
+    //마지막 요소 처리
+    if(hashMap.has(pushArr[pushArr.length-1])){
+        hashMap.set(pushArr[pushArr.length-1],hashMap.get(pushArr[pushArr.length-1])+1);
+    }
+    else{
+        hashMap.set(pushArr[i],1);
+    }
+
+    maxValue = 0;
+
+    for (let [key, value] of hashMap) {
+        if(maxValue<value&&key.length>=2&&value>1){
+            maxValue = value;
+        }
+    }
+
+    for (let [key, value] of hashMap) {
+        if(maxValue === value){
+            answer.push(key);
+        }
+    }
+
     return answer.sort();
 }
