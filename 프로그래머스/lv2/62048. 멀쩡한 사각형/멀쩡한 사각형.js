@@ -6,9 +6,6 @@ function solution(w, h) {
     let GCD = getGCD(w,h);
     var eachW = w / GCD;
     var eachH = h / GCD;
-
     var plus = eachH + eachW - 1;
-
-    answer = w * h - plus * GCD;
-    return answer;
+    return w * h - plus * GCD;
 }
