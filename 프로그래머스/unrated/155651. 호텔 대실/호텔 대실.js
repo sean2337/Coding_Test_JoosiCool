@@ -14,7 +14,6 @@ function plusTimeFun(a){
     else{
         aTotal[1]+=10;
     }
-    
     return aTotal[0]*100+aTotal[1];
 }
 
@@ -40,14 +39,11 @@ function solution(book_time) {
                 roomArr[rIndex] = [frontElement,backElement];
                 check = true;
                 break;
-            }
-            
+            }  
         }
-
         if(check===false){
             roomArr.push([frontElement,backElement]);
         }
     }
-
     return roomArr.length;
 }
