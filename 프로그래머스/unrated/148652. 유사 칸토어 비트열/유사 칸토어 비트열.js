@@ -1,16 +1,16 @@
-function check(num){
-  if (num < 5 && num != 2) return true;
-  if ((num - 2) % 5 === 0) return false;
-
-  return check(Math.floor(num / 5));
-}
-
 function solution(n, l, r) {
     var answer = 0;
-    for(var i = l-1; i<r;i++){
-      if(check(i)){
-        answer++;
-      }
+    n--;
+    var arr = [1,1,0,1,1];
+    while(n--){
+        arr = arr.map((element)=>{
+        return element*4;
+        })
     }
+    
+    l--;
+    r--;
+    answer = arr[l%5] + arr[r%5];
+    
     return answer;
 }
