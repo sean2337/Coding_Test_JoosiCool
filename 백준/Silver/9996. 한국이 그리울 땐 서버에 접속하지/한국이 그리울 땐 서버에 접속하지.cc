@@ -6,8 +6,10 @@
 #include<map>
 #include<set>
 #include<algorithm>
-#include<regex>
 using namespace std;
+
+
+
 int main() {
 
 	int T;
@@ -16,16 +18,23 @@ int main() {
 	string input;
 	cin >> input;
 	int starIndex = input.find('*');
-	string regexStr = "^" + input.substr(0, starIndex) + ".*" + input.substr(starIndex+1) +"$";
-	regex pattern(regexStr);
+	string prefix = input.substr(0, starIndex);
+	string suffix = input.substr(starIndex + 1);
 
 	while (T--) {
 		cin >> input;
-		if (regex_match(input, pattern)) {
+		if (input.size() < prefix.size() + suffix.size()) {
+			cout << "NE" << '\n';
+			continue;
+		}
+		string prefixStr = input.substr(0, prefix.size());
+		string suffixStr = input.substr(input.size()-suffix.size());
+
+		if (prefix == prefixStr && suffix == suffixStr) {
 			cout << "DA" << '\n';
 		}
 		else {
-			cout<<"NE" << '\n';
+			cout << "NE" << '\n';
 		}
 	}
 
