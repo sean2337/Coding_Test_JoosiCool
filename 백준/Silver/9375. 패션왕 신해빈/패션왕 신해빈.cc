@@ -1,52 +1,34 @@
 #include<iostream>
-#include<queue>
-#include<vector>
 #include<string>
+#include<vector>
+#include<array>
+#include <limits>
 #include<map>
-#include<cstring>
+#include<set>
 #include<algorithm>
 using namespace std;
 
 
-
 int main() {
 
-	int count,clothesCount;
-	cin >> count;
-	string name, kind;
-	while (count--) {
-		//종류, count 수
-		cin >> clothesCount;
-		map<string, int>clothMap;
+	int T, N;
+	string str1, str2;
+	cin >> T;
 
-		int result{ 1 };
-		for (int i{ 0 }; i < clothesCount; i++)
-		{
-			cin >> name >> kind;
-			if (clothMap.find(kind) == clothMap.end()) {
-				clothMap.insert({ kind, 1 });
-			}
-			else {
-				clothMap[kind]++;
-			}
+	while (T--) {
+		map<string, int> mp;
+		cin >> N;
+
+		for (int i = 0; i < N; i++) {
+			cin >> str1 >> str2;
+			mp[str2]++;
 		}
-
-	
-
-			for (auto i:clothMap)
-			{
-				result *= (1 + i.second);
-			}
-
-			result--;
-
-			cout << result << "\n";
-			clothMap.clear();
-		
-		
+		int result = 1;
+		for (auto it : mp) {
+			result *= (it.second+1);
+		}
+		cout << result - 1 << endl;
 	}
-
-
 
 	return 0;
 }
