@@ -1,79 +1,47 @@
-#include <iostream>
-#include<string>
-#include<stack>
-#include<vector>
+#include<bits/stdc++.h>
 using namespace std;
+bool isCheck(string str) {
+	stack<char>stk;
 
-int main() {
-	
-	string in;
-	vector<string>resultArr;
-
-
-	while (true)
-	{
-		stack<char>input;
-		string result;
-		//문자열을 받아서 문자형 스택에 저장
-		getline(cin, in);
-		bool ox{ false };
-		if (in == ".")
-			break;
-
-		for (int i{ 0 }; i < in.size(); i++) {
-
-			if (in[i] == '(' || in[i] == '[') {
-				input.push(in[i]);
-			}
-
-			if (in[i] == ')') {
-
-				if (!(input.empty()) && (input.top() == '(')) {
-					input.pop();
-				}
-
-				else {
-					ox = 0;
-					break;
-				}
-			}
-
-			if (in[i] == ']') {
-				if (!(input.empty()) && (input.top()) == '[') {
-					input.pop();
-				}
-				else {
-					ox = 0;
-					break;
-				}
-			}
-
-
-			if (input.empty()) {
-				ox = 1;
+	for (char c : str) {
+		if (c == '(' || c == '[') {
+			stk.push(c);
+		}
+		else if (c == ')') {
+			if ( !stk.empty() && stk.top() == '(') {
+				stk.pop();
 			}
 			else {
-				ox = 0;
+				return false;
 			}
-
 		}
-
-
-
-
-		if (ox == 1) {
-			resultArr.push_back("yes");
+		else if (c == ']') {
+			if (!stk.empty() && stk.top() == '[') {
+				stk.pop();
+			}
+			else {
+				return false;
+			}
+		}
+	}
+	if (stk.empty()) return true;
+	return false;
+}
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	string str;
+	while (true) {
+		getline(cin, str);
+		if (str == ".") break;
+		if (isCheck(str)) {
+			cout << "yes" << '\n';
 		}
 		else {
-			resultArr.push_back("no");
+			cout << "no" << '\n';
 		}
-
-
-	};
-
-
-
-	for (string i : resultArr) {
-		cout << i << "\n";
 	}
-}
+	return 0;
+};
