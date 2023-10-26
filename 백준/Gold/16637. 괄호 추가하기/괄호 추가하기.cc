@@ -1,41 +1,59 @@
-#include<iostream>
-#include<vector>
-#include<climits>
+#include<bits/stdc++.h>
 using namespace std;
 
-string input;
-int inputSize;
-int result = INT_MIN;
+vector<vector<int>>calChoiceVec;
+vector<int>numVec;
+vector<char>calVec;
+int ret = -987654321;
 
 
-int cal(int a, int b, char oper) {
-    if (oper == '+')return a + b;
-    if (oper == '-')return a - b;
-    return a * b;
+int oper(char a, int b, int c) {
+	if (a == '+') {
+		return b + c;
+	}
+	if (a == '-') {
+		return b - c;
+	}
+	if (a == '*') {
+		return b * c;
+	}
 }
 
+void go(int here, int num) {
+	if (here == numVec.size() - 1) {
+		ret = max(ret, num);
+		return;
+	}
+	//기존에 있던거에서 그대로 계산진행
+	go(here + 1, oper(calVec[here], num, numVec[here + 1]));
 
-void solution(int idx, int cur) {
-    if (idx >= inputSize) {
-        result = max(result, cur);
-        return;
-    }
-    char oper = (idx == 0) ? '+' : input[idx - 1];
-
-    if (idx + 2 < inputSize) {
-        int bracket = cal(input[idx] - '0', input[idx + 2] - '0', input[idx + 1]);
-        solution(idx + 4, cal(cur, bracket, oper));
-    }
-
-    solution(idx + 2, cal(cur, input[idx] - '0', oper));
+	if (here + 2 <= numVec.size() - 1) {
+		int temp = oper(calVec[here + 1], numVec[here + 1], numVec[here + 2]);
+		go(here + 2, oper(calVec[here], num, temp));
+	}
 }
+
 
 int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	
+	char c;
+	int N;
+	cin >> N;
+	while (N--) {
+		cin >> c;
+		if (c >= '0' && c <= '9') {
+			numVec.push_back(c - '0');
+		}
+		else {
+			calVec.push_back(c);
+		}
+	}
 
-    cin >> inputSize >> input;
-    solution(0, 0);
+	go(0, numVec[0]);
+	cout << ret;
 
-    cout << result;
-
-    return 0;
+	return 0;
 }
