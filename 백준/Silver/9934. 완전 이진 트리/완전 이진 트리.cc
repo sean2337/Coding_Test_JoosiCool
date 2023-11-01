@@ -1,36 +1,25 @@
-#include<iostream>
-#include<vector>
-#include<queue>
-#include<climits>
-#include <algorithm>
-#include<set>
-#include <sstream>
-#include <limits>
-#include<math.h>
- using namespace std;
+#include<bits/stdc++.h>
+using namespace std;
 
-int arr[1026];
+vector<int>vec;
+int K, plusNum, start, num;
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
 
-	int k;
-	cin >> k;
-
-	for (int i = 1; i < pow(2, k); i++) {
-		cin >> arr[i];
+	cin >> K;
+	for (int i = 0; i < pow(2,K)-1; i++) {
+		cin >> num;
+		vec.push_back(num);
 	}
+	start = vec.size() / 2;
+	plusNum = vec.size() + 1;
 
-	int start = pow(2, k-1);
-	int plus = pow(2,k);
-
-	while (plus != 1) {
-		for (int i = start; i <= pow(2, k); i += plus) {
-			cout << arr[i] << " ";
+	while (plusNum != 1) {
+		for (int i = start; i < vec.size(); i += plusNum) {
+			cout << vec[i] <<" ";
 		}
 		cout << '\n';
-		plus = plus / 2;
+		plusNum = plusNum / 2;
 		start = start / 2;
 	}
 	return 0;
