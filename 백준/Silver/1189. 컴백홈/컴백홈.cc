@@ -1,58 +1,39 @@
-#include<iostream>
-#include<vector>
-#include<queue>
-#include<climits>
-#include <algorithm>
-#include<set>
-#include <sstream>
-#include <limits>
-#include<math.h>
- using namespace std;
+#include<bits/stdc++.h>
+using namespace std;
 
+int xLen, yLen, len;
+bool visited[10][10];
+char arr[12][12];
+int dx[] = { -1,1,0,0 };
+int dy[] = { 0,0,-1,1 };
+int ans = 0;
 
+void DFS(int y, int x, int count) {
+	if (y == 0 && x == xLen - 1 && count == len) {
+		ans++;
+		return;
+	}
+	for (int i = 0; i < 4; i++) {
+		int nx = x + dx[i]; int ny = y + dy[i];
+		if (nx < 0 || ny < 0 || nx >= xLen || ny >= yLen|| visited[ny][nx]|| arr[ny][nx] == 'T') continue;
+		visited[ny][nx] = 1;
+		DFS(ny, nx, count + 1);
+		visited[ny][nx] = 0;
+	}
+}
 
- char arr[6][6];
- int visit[6][6];
- int yLen, xLen, goalDistance;
- int dx[] = { -1,1,0,0 };
- int dy[] = { 0,0,1,-1 };
- int result = 0;
-
- void DFS(int x, int y, int distance) {
-	 if ( y == 0 && x == xLen-1) {
-		 if (distance == goalDistance) {
-			 result++;
-		 }
-		 return;
-	 }
-
-	 for (int i = 0; i < 4; i++) {
-		 int nX = x + dx[i];
-		 int nY = y + dy[i];
-
-		 if (nX >= xLen || nY >= yLen || nX < 0 || nY < 0) continue;
-		 if (!visit[nY][nX] && arr[nY][nX]=='.') {
-			 visit[nY][nX] = true;
-			 DFS(nX, nY, distance + 1);
-			 visit[nY][nX] = false;
-		 }
-	 }
- }
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
 	
-	cin >> yLen >> xLen >> goalDistance;
+	cin >> yLen >> xLen >> len;
 	for (int i = 0; i < yLen; i++) {
 		for (int j = 0; j < xLen; j++) {
 			cin >> arr[i][j];
 		}
 	}
-	
-	visit[yLen - 1][0] = true;
-	DFS(0, yLen - 1, 1);
-	cout << result;
+	visited[yLen - 1][0] = true;
+	DFS(yLen - 1, 0, 1);
+	cout << ans;
 
 	return 0;
 }
