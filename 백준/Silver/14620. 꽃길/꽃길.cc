@@ -1,61 +1,32 @@
-#include<iostream>
-#include<vector>
-#include<queue>
-#include<climits>
-#include <algorithm>
-#include<set>
-#include <sstream>
-#include <limits>
-#include<math.h>
- using namespace std;
-
-int arr[11][11];
-int visit[11][11];
-
-int dx[] = { -1,1,0,1 };
-int dy[] = { 0,0,1,-1 };
+#include<bits/stdc++.h>
+using namespace std;
 
 int N;
+bool visited[12][12];
+int arr[12][12];
+int x1, x2, x3, yv1, y2, y3;
+int dx[] = { 0,-1,1,0,0 };
+int dy[] = { 0, 0,0,-1,1 };
 
-void visitFlower(int x, int y) {
-	visit[y][x] = true; visit[y+1][x] = true; visit[y-1][x] = true; visit[y][x+1] = true; visit[y][x-1] = true;
+bool blockCheck(int x, int y) {
+	if (x <= 0 || y <= 0 || x + 1>= N || y + 1 >= N) return false;
+	return true;
 }
 
-void noneVisitFlower(int x, int y) {
-	visit[y][x] = false; visit[y + 1][x] = false; visit[y - 1][x] = false; visit[y][x + 1] = false; visit[y][x - 1] = false;
-}
-
-int minMoney = numeric_limits<int>::max();
-
-
-void DFS(int x, int y, int count, int money) {
-
-	if (count == 3) {
-		minMoney = min(minMoney, money);
-		return;
+int checkFlower(int y, int x) {
+	int sum = 0;
+	for (int i = 0; i < 5; i++) {
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		if (visited[ny][nx]) return -1;
+		visited[ny][nx] = 1;
+		sum += arr[ny][nx];
 	}
-
-	for (int nextX = 0; nextX < N; nextX++) {
-		for (int nextY = 0; nextY < N; nextY++) {
-			//범위를 벚어나면 패스
-			if (nextX < 1 || nextY<1 || nextX >= N - 1 || nextY >= N - 1) continue;
-			// 꽃모양 방문하지 않았을때
-			if (!visit[nextY][nextX] && !visit[nextY + 1][nextX] && !visit[nextY][nextX + 1] && !visit[nextY - 1][nextX] && !visit[nextY][nextX - 1]) {
-				int totalMoney = arr[nextY][nextX] + arr[nextY+1][nextX] + arr[nextY-1][nextX] + arr[nextY][nextX+1] + arr[nextY][nextX-1];
-				visitFlower(nextX, nextY);
-				DFS(nextX, nextY, count + 1, money + totalMoney);
-				noneVisitFlower(nextX,nextY);
-			}
-		}
-	}
+	return sum;
 }
-
-
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-
+	int result = 987654321;
 	cin >> N;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -63,9 +34,23 @@ int main() {
 		}
 	}
 
-	visit[0][0] = true;
-	DFS(0, 0, 0, 0);
-	cout << minMoney;
+	for (int i = 0; i < N*N; i++) {
+		for (int j = 0; j < i; j++) {
+			for (int k = 0; k < j; k++) {
+				x1 = i % N; yv1 = i / N;
+				x2 = j % N; y2 = j / N;
+				x3 = k % N; y3 = k / N;
+				//벽 걸리는지 체크
+				if (!blockCheck(x1, yv1) || !blockCheck(x2, y2) || !blockCheck(x3, y3))continue;
+				memset(visited, 0, sizeof(visited));
+				int sum1 = checkFlower(yv1, x1); int sum2 = checkFlower(y2, x2); int sum3 = checkFlower(y3, x3);
+				if (sum1 == -1 || sum2 == -1 || sum3 == -1) continue;
+				result = min(result, sum1 + sum2 + sum3);
+			}
+		}
+	}
+
+	cout << result;
 
 	return 0;
 }
