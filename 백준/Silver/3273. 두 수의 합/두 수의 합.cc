@@ -1,7 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
+typedef long long ll;
 
-long long N, l, r, x, num;
+
+int N, goal;
 vector<int>vec;
 
 
@@ -12,30 +14,28 @@ int main() {
 	cout.tie(NULL);
 
 	cin >> N;
+	int num;
 	for (int i = 0; i < N; i++) {
 		cin >> num;
 		vec.push_back(num);
 	}
-	cin >> x;
+	cin >> goal;
 
 	sort(vec.begin(), vec.end());
-	l = 0; r = vec.size() - 1;
-	int cnt = 0;
+
+	int l = 0, r = N-1;
+	int rnt = 0;
 	while (l < r) {
 		int sum = vec[l] + vec[r];
-		if (sum == x) {
-			cnt++;
-			l++; r--;
-		}
-		else if (sum > x) {
+		if (sum == goal) rnt++;
+		if (sum > goal) {
 			r--;
 		}
 		else {
 			l++;
 		}
 	}
-	cout << cnt;
-
-
+	cout << rnt;
+	
 	return 0;
 }
