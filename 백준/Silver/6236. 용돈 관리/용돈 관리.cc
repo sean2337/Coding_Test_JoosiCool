@@ -25,9 +25,10 @@ bool check(ll mid) {
 
 int main() {
     cin >> N >> M;
-    ll l = 1, r = numeric_limits<ll>::max();
+    ll l = 1, r = 0;
     for (int i = 0; i < N; i++) {
         cin >> arr[i];
+        r+=arr[i];
     }
 
     ll minResult = numeric_limits<ll>::max();
