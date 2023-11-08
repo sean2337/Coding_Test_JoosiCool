@@ -2,10 +2,10 @@
 using namespace std;
 typedef long long ll;
 const ll maxNum = 1e6 + 4;
+ll arr[maxNum], tree[maxNum];
 ll N, M, K;
-ll tree[maxNum], arr[maxNum];
 
-ll sumTree(ll idx) {
+ll getSum(ll idx) {
 	ll result = 0;
 	while (idx > 0) {
 		result += tree[idx];
@@ -21,6 +21,7 @@ void update(ll idx, ll dif) {
 	}
 }
 
+
 int main() {
 
 	cin >> N >> M >> K;
@@ -32,13 +33,13 @@ int main() {
 	ll a, b, c;
 	for (ll i = 1; i <= M + K; i++) {
 		cin >> a >> b >> c;
-		if (a == 1) {
+		if(a==1){
 			ll dif = c - arr[b];
 			arr[b] = c;
 			update(b, dif);
 		}
 		else {
-			cout << sumTree(c) - sumTree(b - 1) << '\n';
+			cout << getSum(c) - getSum(b - 1) << '\n';
 		}
 	}
 	return 0;
