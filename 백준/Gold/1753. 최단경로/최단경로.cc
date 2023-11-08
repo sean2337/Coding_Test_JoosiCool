@@ -25,8 +25,8 @@ int main() {
 		pq.pop();
 		if (dist[here] != here_dist) continue;
 		for (pairll there : adj[here]) {
-			int _dist = there.first;
-			int _there = there.second;
+			ll _dist = there.first;
+			ll _there = there.second;
 			if (dist[_there] > dist[here] + _dist) {
 				dist[_there] = dist[here] + _dist;
 				pq.push({ dist[_there], _there });
@@ -40,3 +40,4 @@ int main() {
 	}
 	return 0;
 }
+
