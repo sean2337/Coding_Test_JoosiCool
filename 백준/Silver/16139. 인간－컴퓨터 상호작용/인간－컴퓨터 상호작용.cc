@@ -5,7 +5,7 @@ typedef long long ll;
 typedef pair<ll, ll> pairll;
 using namespace std;
 ll N, M, a, b, c, d;
-ll sum[30][2004];
+ll sum[30][200004];
 
 int main() {
 	ios_base::sync_with_stdio(NULL);
