@@ -1,41 +1,47 @@
+#define _CRT_SECURE_NO_WARNINGS 
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-
-ll N, M;
+typedef pair<ll, ll> pairll;
+const ll maxSize = 1e8 + 4;
+const ll INF = 987654321;
+ll N, K, M, T, num, a, b, c;
 ll arr[300004];
+ll rnt = INF;
 
 bool check(ll mid) {
-    ll num = 0;
-    for (int i = 0; i < M; i++) {
-        num += arr[i] / mid;
-        if (arr[i] % mid) num++;
-    }
-    return N >= num;
+	ll cnt = 0;
+	for (ll i = 0; i < M; i++) {
+		cnt += arr[i] / mid;
+		if (arr[i] % mid)cnt++;
+	}
 
+	return cnt<=N;
 }
 
 
 int main() {
-    cin >> N >> M;
-    ll l = 1, r = 0;
-    for (int i = 0; i < M; i++) {
-        cin >> arr[i];
-        r = max(arr[i], r);
-    }
+	ios_base::sync_with_stdio(NULL);
+	cin.tie(NULL);
+	cout.tie(NULL);
 
-    ll minResult = 987654321;
-    while (l <= r) {
-        ll mid = (l + r) / 2;
-        if (check(mid)) {
-            minResult = min(minResult, mid);
-            r = mid - 1;
-        }
-        else {
-            l = mid + 1;
-        }
-    }
-    cout << minResult;
+	cin >> N >> M;
+	for (ll i = 0; i < M; i++) {
+		cin >> arr[i];
+	}
 
-    return 0;
+	ll l = 1, r = INF, mid;
+	while (l <= r) {
+		mid = (l + r) / 2;
+		if (check(mid)) {
+			rnt = min(rnt, mid);
+			r = mid - 1;
+		}
+		else {
+			l = mid + 1;
+		}
+	}
+	cout << rnt;
+
+	return 0;
 }
