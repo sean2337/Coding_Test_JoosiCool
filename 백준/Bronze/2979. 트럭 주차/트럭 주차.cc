@@ -1,32 +1,29 @@
-#include<iostream>
-#include<string>
-using namespace std;
+#include <bits/stdc++.h>
+using namespace std; 
+typedef long long ll;
 
-
-int fee[4];
-int arr[101];
-
+ll fee[4];
+ll arr[104];
+ll d,e;
+ll rnt;
 
 int main() {
 
-	int result = 0;
 
-	for (int i = 1; i <= 3; i++) {
-		cin >> fee[i];
-		fee[i] *= i;
-	}
-	int start, end;
-	for (int i = 0; i < 3; i++) {
-		cin >> start >> end;
-		for (int j = start; j < end; j++) {
-			arr[j]++;
-		}
-	}
+    cin>>fee[1]>>fee[2]>>fee[3];
+    for(int i = 0;i<3;i++){
+        cin>>d>>e;
+        for(ll j = d;j<e;j++){
+            arr[j]++;
+        }
+    }
 
-	for (int i = 0; i < 100; i++) {
-		result += fee[arr[i]];
-	}
-	cout << result << '\n';
+    for(ll i = 0;i<103;i++){
+        rnt += fee[arr[i]] * arr[i];
+    }
 
-	return 0;
+    cout<<rnt;
+    
+
+    return 0; 
 }
