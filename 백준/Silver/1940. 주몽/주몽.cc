@@ -1,34 +1,37 @@
-#include<iostream>
-#include<string>
-#include<vector>
-#include<array>
-#include <limits>
-#include<map>
-#include<set>
-#include<algorithm>
-using namespace std;
+#include <bits/stdc++.h>
+using namespace std; 
+typedef long long ll;
 
-
-int arr[10000003];
-int N, M;
-
+ll N,M, num;
+ll arr[10000004];
+ll l, r, cnt;
 
 int main() {
 
-	cin >> N >> M;
-	for (int i = 0; i < N; i++) {
-		cin >> arr[i];
-	}
+    vector<ll>vec;
+    cin>>N>>M;
 
-	int result = 0;
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < i; j++) {
-			if (arr[i] + arr[j] == M) result++;
-		}
-	}
+    for(ll i = 0;i<N;i++){
+        cin>>arr[i];
+    }
 
+    sort(arr, arr + N);
 
-	cout << result;
+    l = 0; r = N-1;
+    while(l<r){
+        if(arr[l]+arr[r]==M){
+            l++; r--; cnt++;
+        }
+        else if(arr[l]+arr[r]>M){
+            r--;
+        }
+        else{
+            l++;
+        }
+    }
 
-	return 0;
+    if(l==r && arr[l] == 9) cnt++;
+    cout<<cnt;
+
+    return 0; 
 }
