@@ -1,31 +1,24 @@
-#include<iostream>
-#include<string>
-#include<vector>
-#include<array>
-#include <limits>
-#include<map>
-#include<set>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
+typedef long long ll;
+ll N, M, num;
+string s;
+ll prefixSum[100004];
 
-int arr[100003];
-long long sum[100003];
-int main() {
+int main()
+{
+    cin >> N >> M;
+    for (ll i = 1; i <= N; i++)
+    {
+        cin >> num;
+        prefixSum[i] = prefixSum[i - 1] + num;
+    }
+    ll rnt = -10000000;
+    for (ll i = 0; i <= N - M; i++)
+    {
+        rnt = max(rnt, prefixSum[i + M] - prefixSum[i]);
+    }
+    cout << rnt;
 
-	int T, N;
-	cin >> T >> N;
-	for (int i = 1; i <= T; i++) {
-		cin >> arr[i];
-		sum[i] = sum[i - 1] + arr[i];
-	}
-
-	long long maxResult = numeric_limits<long long>::min();
-
-	for (int i = 0; i + N <= T; i++) {
-		maxResult = max(maxResult, sum[i + N] - sum[i]);
-	}
-
-	cout << maxResult;
-
-	return 0;
+    return 0;
 }
