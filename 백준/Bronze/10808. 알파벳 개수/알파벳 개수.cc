@@ -1,27 +1,22 @@
-#include<iostream>
-#include<string>
-#include<vector>
-#include<array>
-#include <limits>
-#include<map>
-#include<set>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
+typedef long long ll;
 
+ll arr[30];
 
-int arr[26];
+int main()
+{
+    string s;
+    cin >> s;
+    for (char c : s)
+    {
+        arr[(int)c - 97]++;
+    }
 
-int main() {
+    for (ll i = 0; i < 26; i++)
+    {
+        cout << arr[i] << " ";
+    }
 
-	string s;
-	cin >> s;
-	for (char c : s) {
-		arr[c - 'a']++;
-	}
-	for (int i = 0; i < 26; i++) {
-		cout << arr[i] << ' ';
-	}
-
-
-	return 0;
+    return 0;
 }
