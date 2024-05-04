@@ -1,13 +1,17 @@
-#include<iostream>
-#include<string>
-#include<algorithm>
+#include <bits/stdc++.h>
 using namespace std;
-int main() {
-	string s;
-	cin >> s;
-	string before = s.substr(0,s.size()/2);
-	reverse(s.begin(), s.end());
-	if (before == (s.substr(0, s.size() / 2))) cout << 1;
-	else cout << 0;
-	return 0;
+typedef long long ll;
+
+int main()
+{
+    string s;
+    cin >> s;
+    string r = s;
+    reverse(s.begin(), s.end());
+    if (r == s)
+        cout << 1;
+    else
+        cout << 0;
+
+    return 0;
 }
