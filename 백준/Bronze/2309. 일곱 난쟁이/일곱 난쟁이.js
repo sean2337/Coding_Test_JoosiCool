@@ -1,28 +1,29 @@
-const fs = require(`fs`);
-const inputData = fs.readFileSync('/dev/stdin').toString().trim().split('\n').map(v=>Number(v));
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : 'testcase.txt';
+let input = fs.readFileSync(filePath).toString().trim().split('\n');
 
-const sortArr = inputData.sort((a,b)=>a-b);
-const len = sortArr.length;
+let sum = 0;
+let numArr = [];
+let result = '';
 
-let answer = [];
+input.forEach((v) => {
+  numArr.push(Number(v));
+  sum += Number(v);
+});
 
-function choice(index,sum, result){
-    if(sum===100){
-        answer.push(result);
-        return;
+for (let i = 0; i < numArr.length; i++) {
+  for (let j = 0; j < i; j++) {
+    if (sum - numArr[i] - numArr[j] === 100) {
+      numArr.splice(i, 1);
+      numArr.splice(j, 1);
+      numArr.sort((a, b) => {
+        return a - b;
+      });
+
+      numArr.forEach((v) => {
+        result += v + '\n';
+      });
+      return console.log(result);
     }
-    else if(sum>100||index>=len){
-        return;
-    }
-    else{
-        for(index;index<len;index++){
-            choice(index+1,sum+sortArr[index],[...result,sortArr[index]]);
-        }
-    }
+  }
 }
-
-choice(0,0,[]);
-answer = answer.filter((element)=>element.length===7);
-answer[0].forEach((element)=>{
-    console.log(element);
-})
