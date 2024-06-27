@@ -1,33 +1,28 @@
-const fs = require(`fs`);
-const inputData = fs.readFileSync('dev/stdin').toString().trim().split('\n');
-var firstNameMap = new Map();
-let count = Number(inputData.shift());
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : 'testcase.txt';
+let input = fs.readFileSync(filePath).toString().trim().split('\n');
 
+//key=성, value = count
+let map = new Map();
 
-inputData.forEach((element)=>{
-    var firstName = element[0];
-    if(firstNameMap.has(firstName)){
-        var beforeCount = firstNameMap.get(firstName);
-        firstNameMap.set(firstName, beforeCount+1);
-    }
-    else{
-        firstNameMap.set(firstName, 1);
-    }
-})
-
-var firstNameArr = new Array(...firstNameMap).sort((a,b)=>a[0].charCodeAt()- b[0].charCodeAt());
-var answer = "";
-
-//7이상인거 count;
-firstNameArr.forEach((element)=>{
-    if(element[1]>=5){
-        answer+=element[0];
-    }
-})
-
-if(answer.length===0){
-    console.log("PREDAJA");
+let inCount = Number(input[0]);
+for (let i = 1; i <= inCount; i++) {
+  let checkStr = input[i][0];
+  if (map.has(checkStr)) {
+    map.set(checkStr, map.get(checkStr) + 1);
+  } else {
+    map.set(checkStr, 1);
+  }
 }
-else{
-    console.log(answer);
+let arr = [];
+
+for (let [a, b] of map) {
+  if (b >= 5) {
+    arr.push(a);
+  }
 }
+
+if (arr.length === 0) {
+  return console.log('PREDAJA');
+}
+return console.log(arr.sort().join(''));
