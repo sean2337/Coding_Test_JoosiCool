@@ -1,37 +1,25 @@
-const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "./text.txt";
-let input = fs.readFileSync(filePath).toString().trim().split("\n");
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : 'testcase.txt';
+let input = fs.readFileSync(filePath).toString().split('\n');
 
+let inCount = Number(input[0]);
+let goal = Number(input[1]);
 
-var inputCount = Number(input.shift());
-var need = Number(input.shift());
-var count = 0;
+let arr = input[2]
+  .split(' ')
+  .map((v) => Number(v))
+  .sort((a, b) => a - b);
 
-input = input[0].split(" ").map(v=>Number(v));
-
-
-function findNeed(startIndex, arr){
-
-  if(startIndex >= arr.length-1){
-    return "end";
-  }
-
-  var oneValue = arr[startIndex];
-  for(var i = startIndex+1; i<arr.length;i++){
-    //값이 있다면 제거
-    if(oneValue+arr[i]===need){
-      count++;
-      arr.splice(i,1);
-      arr.splice(startIndex,1);
-      return startIndex;
-    }
-  }
-  return startIndex+1
+let l = 0;
+let r = inCount - 1;
+let result = 0;
+while (l < r) {
+  if (arr[l] + arr[r] === goal) {
+    result++;
+    l++;
+    r--;
+  } else if (arr[l] + arr[r] > goal) {
+    r--;
+  } else l++;
 }
-
-var start = 0;
-
-while(start!=="end"){
-  start = findNeed(start,input);
-}
-console.log(count);
+return console.log(result);
