@@ -1,36 +1,24 @@
-const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "./text.txt";
-let input = fs.readFileSync(filePath).toString().trim().split("\n");
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : 'testcase.txt';
+let input = fs.readFileSync(filePath).toString().split('\n');
 
-
-var inputCount = Number(input.shift());
-
-function goodWordsFun(word){
-  word = word.split("");
-  var stack = [];
-  word.forEach((element)=>{
-    if(stack.length===0){
-      stack.push(element);
+function isGoodWord(word) {
+  let stk = [];
+  for (let i = 0; i < word.length; i++) {
+    if (stk.length === 0 || stk[stk.length - 1] !== word[i]) {
+      stk.push(word[i]);
+    } else {
+      stk.pop();
     }
-    else if(stack[stack.length-1] !== element){
-      stack.push(element);
-    }
-    else{
-      stack.pop();
-    }
-  })
-  // 단어가 모두 사라져있으면 좋은 단어
-  if(stack.length===0){
+  }
+  if (stk.length === 0) {
     return true;
-  }
-  else{
-    return false;
-  }
+  } else return false;
 }
 
-var count = 0;
-input.forEach((element)=>{
-  if(goodWordsFun(element)) count++;
-})
-
-console.log(count);
+let inCount = Number(input[0]);
+let result = 0;
+for (let i = 1; i <= inCount; i++) {
+  if (isGoodWord(input[i])) result++;
+}
+return console.log(result);
