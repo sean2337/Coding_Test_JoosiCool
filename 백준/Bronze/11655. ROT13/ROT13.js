@@ -1,25 +1,28 @@
 const fs = require('fs');
-const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const filePath = process.platform === 'linux' ? '/dev/stdin' : 'testcase.txt';
 let input = fs.readFileSync(filePath).toString().split('\n');
 
-let words = input[0]
-let answer = ''
-
-for(let i = 0; i < words.length; i++){
-   if('A' <= words[i] && words[i] <= 'Z'){
-        nums = String(words).charCodeAt(i) +13
-        if(nums> 90){
-            nums -= 26
-        }
-        answer += String.fromCharCode(nums)
-    } else if( 'a' <= words[i] && words[i] <= 'z' ){
-        nums = String(words).charCodeAt(i) + 13
-        if(nums > 122){
-            nums -= 26
-        }
-        answer += String.fromCharCode(nums)
-    } else {
-        answer += words[i]
+function ROTC13(c) {
+  let cNum = c.charCodeAt();
+  if (cNum >= 65 && cNum <= 90) {
+    cNum += 13;
+    if (cNum > 90) {
+      cNum -= 26;
     }
+  } else if (cNum >= 97 && cNum <= 122) {
+    cNum += 13;
+    if (cNum > 122) {
+      cNum -= 26;
+    }
+  }
+  return String.fromCharCode(cNum);
 }
-console.log(answer)
+
+let checkStr = input[0];
+console.log(
+  [...checkStr]
+    .map((v) => {
+      return ROTC13(v);
+    })
+    .join('')
+);
