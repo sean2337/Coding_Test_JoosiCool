@@ -4,7 +4,9 @@ public class Main {
     
     static int[][] arr = new int[1030][1030];
     static int[][] sum = new int[1030][1030];
-
+    static StringBuilder output = new StringBuilder();
+    
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -24,9 +26,9 @@ public class Main {
             int d = scanner.nextInt();
             int c = scanner.nextInt();
 
-            System.out.println(sum[d][c] - sum[d][a - 1] - sum[b - 1][c] + sum[b - 1][a - 1]);
+            output.append(sum[d][c] - sum[d][a - 1] - sum[b - 1][c] + sum[b - 1][a - 1]).append('\n');     
         }
-
+        System.out.println(output);
         scanner.close();
     }
 }
