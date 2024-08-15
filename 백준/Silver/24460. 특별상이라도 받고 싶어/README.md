@@ -32,7 +32,7 @@
 
 <p>위와 같은 의자 배열이 있다고 가정하자. 이를 네 개의 구역으로 나누면 아래와 같다.</p>
 
-<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/a97397ab-f9de-49d9-b528-097bfee40e9b/-/preview/" style="height: 394px; width: 700px;"></p>
+<p style="text-align: center;"><img alt="" src="" style="height: 394px; width: 700px;"></p>
 
 <p>나누어진 구역의 왼쪽 위 구역을 다시 네 개의 구역으로 나누면 아래와 같다.</p>
 
@@ -48,7 +48,7 @@
 
 <p>따라서 특별상을 받는 추첨번호는 아래와 같다.</p>
 
-<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/15ca0a46-e06a-496b-8a02-5c79e58a2b18/-/preview/" style="height: 394px; width: 700px;"></p>
+<p style="text-align: center;"><img alt="" src="" style="height: 394px; width: 700px;"></p>
 
 <p>따라서, 추첨번호 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mn class="mjx-n"><mjx-c class="mjx-c33"></mjx-c></mjx-mn></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$3$</span></mjx-container>이 적힌 의자에 앉은 참가자가 특별상을 받는다.</p>
 
