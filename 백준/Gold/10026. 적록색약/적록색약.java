@@ -41,35 +41,27 @@ public class Main {
             }
         }
 
-        int cnt1 = 0, cnt2 = 0;
+        int[] counts = new int[2];
 
-        for (int y = 0; y < N; y++) {
-            for (int x = 0; x < N; x++) {
-                if (visited[y][x] == 0) {
-                    cnt1++;
-                    visited[y][x] = 1;
-                    DFS(y, x, 0);
+        for (int caseIdx = 0; caseIdx < 2; caseIdx++) {
+            for (int y = 0; y < N; y++) {
+                for (int x = 0; x < N; x++) {
+                    if (visited[y][x] == 0) {
+                        counts[caseIdx]++;
+                        visited[y][x] = 1;
+                        DFS(y, x, caseIdx);
+                    }
+                }
+            }
+            if(caseIdx == 1) continue;
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    visited[i][j] = 0;
                 }
             }
         }
 
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                visited[i][j] = 0;
-            }
-        }
-
-        for (int y = 0; y < N; y++) {
-            for (int x = 0; x < N; x++) {
-                if (visited[y][x] == 0) {
-                    cnt2++;
-                    visited[y][x] = 1;
-                    DFS(y, x, 1);
-                }
-            }
-        }
-
-        System.out.println(cnt2 + " " + cnt1);
+        System.out.println(counts[1] + " " + counts[0]);
         sc.close();
     }
 }
