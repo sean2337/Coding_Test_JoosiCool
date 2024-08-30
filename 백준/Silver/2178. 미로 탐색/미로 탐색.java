@@ -1,8 +1,6 @@
 import java.util.*;
 
 public class Main {
-    static final int maxN = 104;
-    static final int maxM = 104;
 
     static int N, M, cx, cy, nx, ny;
     static String inputLine;
@@ -10,8 +8,8 @@ public class Main {
     static int[] dx = { -1, 1, 0, 0 };
     static int[] dy = { 0, 0, 1, -1 };
 
-    static int[][] visited = new int[maxN][maxM];
-    static char[][] arr = new char[maxN][maxM];
+    static int[][] visited;
+    static char[][] arr;
 
     static class Point {
         int x, y;
@@ -28,7 +26,10 @@ public class Main {
         N = sc.nextInt();
         M = sc.nextInt();
         sc.nextLine();
-
+        
+        visited = new int[N][M];
+        arr = new char[N][M];
+        
         for (int y = 0; y < N; y++) {
             inputLine = sc.nextLine();
             for (int x = 0; x < M; x++) {
