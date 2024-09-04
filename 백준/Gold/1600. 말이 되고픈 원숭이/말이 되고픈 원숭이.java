@@ -1,3 +1,7 @@
+// O(W*H*(K+1))
+// => 200 X 200 X 31
+// 1,240,000 => OK
+
 import java.util.*;
 
 class Point {
