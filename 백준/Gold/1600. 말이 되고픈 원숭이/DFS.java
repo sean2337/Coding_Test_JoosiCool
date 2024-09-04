@@ -1,3 +1,7 @@
+// O((yLen×xLen)×(K+1)×12)
+// -> 200 X 200 X 31 x 12 
+// => 14,880,000 => OK
+
 import java.util.Scanner;
 
 public class Main {
