@@ -1,69 +1,70 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<string>
+#include<queue>
+#include<algorithm>
+#include<tuple>
 using namespace std;
-typedef long long ll;
-typedef pair<int, int> pairInt;
+typedef pair<int, int>pairInt;
 
+
+const int maxN = 24;
+int visited[maxN];
+int arr[maxN][maxN];
 int N;
-vector<vector<int>> vec;
-int arr[24][24];
+int rnt = 98765421;
 
-void combination(int start, vector<int>v) {
-	if (v.size() == N/2) {
-		vec.push_back(v);
+void go(int i, int sum1, int sum2, vector<int> vec1, vector<int> vec2) {
+
+	if (i == N) {
+		rnt = min(rnt, abs(sum1 - sum2));
 		return;
 	}
 
-	for (int i = start; i < N; i++) {
-		v.push_back(i);
-		combination(i+1, v);
-		v.pop_back();
-	}
-	return;
-}
+	if (vec1.size() < N / 2) {
 
-int sumScore(vector<int> v) {
-	int sum = 0;
-	for (int i = 0; i < v.size(); i++) {
-		for (int j = i + 1; j < v.size(); j++) {
-			sum += arr[v[i]][v[j]]; sum += arr[v[j]][v[i]];
+		int plusValue = 0;
+		for (int a : vec1) {
+			plusValue += arr[i][a];
+			plusValue += arr[a][i];
 		}
+
+		vec1.push_back(i);
+		go(i + 1, sum1 + plusValue, sum2, vec1, vec2);
+		vec1.pop_back();
 	}
-	return sum;
+
+	if (vec2.size() < N / 2) {
+
+		int plusValue = 0;
+		for (int a : vec2) {
+			plusValue += arr[i][a];
+			plusValue += arr[a][i];
+		}
+
+		vec2.push_back(i);
+		go(i + 1, sum1, sum2 + plusValue, vec1, vec2);
+		vec2.pop_back();
+	}
 }
 
 
 int main() {
 
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
 	cin >> N;
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			cin >> arr[i][j];
+	for (int y = 0; y < N; y++) {
+		for (int x = 0; x < N; x++) {
+			cin >> arr[y][x];
 		}
-	}
-	
-	vector<int>ve;
-	combination(0, ve);
-	int minResult = 98765421;
-	for (vector<int>v : vec) {
-		vector<int> firstVec;
-		vector<int> secondVec;
-		for (int i = N-1; i >= 0; i--) {
-			if (v.size() && i == v[v.size() - 1]) {
-				firstVec.push_back(i);
-				v.pop_back();
-			}
-			else{
-				secondVec.push_back(i);
-			}
-		}
-		minResult = min(minResult, abs(sumScore(firstVec) - sumScore(secondVec)));
 	}
 
-	cout << minResult;
+	vector<int>vec1;
+	vector<int> vec2;
+	go(0, 0, 0, vec1, vec2);
+
+
+	cout << rnt;
 
 	return 0;
 }
