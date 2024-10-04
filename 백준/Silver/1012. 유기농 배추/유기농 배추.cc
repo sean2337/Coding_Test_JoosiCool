@@ -1,46 +1,58 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-bool visited[53][53];
-int dx[] = { 0,0,-1,1 };
-int dy[] = { 1,-1,0,0 };
-int T, xLen, yLen, inCount;
-int x, y;
+const int maxM = 54;
+const int maxN = 54;
+int xLen, yLen, T, K;
+bool visited[maxN][maxM];
+int dx[] = { -1,1,0,0 };
+int dy[] = { 0, 0, 1,-1 };
 
 void DFS(int y, int x) {
 
-	for (int i = 0; i < 4; i++) {
-		int nx = x + dx[i];
-		int ny = y + dy[i];
-		if (nx < 0 || nx >= xLen || ny < 0 || ny >= yLen || visited[ny][nx]) continue;
-		visited[ny][nx] = 1;
-		DFS(ny, nx);
-	}
+    for (int k = 0; k < 4; k++) {
+        int ny = y + dy[k];
+        int nx = x + dx[k];
+        if (ny < 0 || nx < 0 || ny >= yLen || nx >= xLen || visited[ny][nx]) continue;
+            
+        visited[ny][nx] = true;
+        DFS(ny, nx);
+    }
 
 }
 
-int main() {
-	cin >> T;
-	while (T--) {
-		cin >> xLen >> yLen >> inCount;
-		memset(visited, 1, sizeof(visited));
-		while (inCount--)
-		{
-			cin >> x >> y;
-			visited[y][x] = 0;
-		}
-		int result = 0;
-		for (int i = 0; i <= yLen; i++) {
-			for (int j = 0; j <= xLen; j++) {
-				if (!visited[i][j]) {
-					visited[i][j] = 1;
-					result++;
-					DFS(i, j);
-				}
-			}
-		}
-		cout << result << '\n';
-	}
 
-	return 0;
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+  
+  
+    cin >> T;
+
+    while (T--) {
+        memset(visited, true, sizeof(visited));
+        int rnt = 0;
+        cin >> xLen >> yLen >> K;
+        
+        int y, x;
+        for (int k = 0; k < K; k++) {
+            cin >> x >> y;
+            visited[y][x] = false;
+        }
+
+
+        for (int y = 0; y < yLen; y++) {
+            for (int x = 0; x < xLen; x++) {
+                if (visited[y][x] == false) {
+                    rnt++;
+                    visited[y][x] == true;
+                    DFS(y, x);
+                }
+            }
+        }
+        cout << rnt << "\n";
+    }
+
+    return 0;
 }
