@@ -1,61 +1,46 @@
 const fs = require('fs');
 const filePath = process.platform === 'linux' ? '/dev/stdin' : 'testcase.txt';
 let input = fs.readFileSync(filePath).toString().split('\n');
-let result = '';
-let dx = [0, 0, 1, -1];
-let dy = [1, -1, 0, 0];
 
-let testCount = Number(input.shift());
+const maxNum = 54;
+let dx = [-1, 1, 0, 0];
+let dy = [0, 0, 1, -1];
 
-for (let i = 0; i < testCount; i++) {
-  let resultCount = 0;
-  let [yLen, xLen, inCount] = input
-    .shift()
-    .split(' ')
-    .map((v) => Number(v));
-  //배추 배열 생성 및 초기화
-  let arr = new Array(yLen);
-  for (let j = 0; j < yLen; j++) {
-    arr[j] = new Array(xLen).fill(0);
+let visited;
+let yLen, xLen;
+
+function DFS(y, x) {
+  for (let k = 0; k < 4; k++) {
+    let ny = y + dy[k];
+    let nx = x + dx[k];
+    if (ny < 0 || nx < 0 || ny >= yLen || nx >= xLen || visited[ny][nx])
+      continue;
+    visited[ny][nx] = true;
+    DFS(ny, nx);
   }
-  //인풋 받기
-  for (let j = 0; j < inCount; j++) {
-    let [y, x] = input
-      .shift()
-      .split(' ')
-      .map((v) => Number(v));
-    arr[y][x] = 1;
+}
+
+let T = input.shift();
+while (T--) {
+  let [xLen, yLen, N] = input.shift().split(' ').map(Number);
+
+  visited = Array.from({ length: maxNum }, () => {
+    return new Array(maxNum).fill(true);
+  });
+  for (let i = 0; i < N; i++) {
+    let [x, y] = input.shift().split(' ').map(Number);
+    visited[y][x] = false;
   }
 
+  let rnt = 0;
   for (let y = 0; y < yLen; y++) {
     for (let x = 0; x < xLen; x++) {
-      if (arr[y][x] === 1) {
-        resultCount++;
-        let queue = [[y, x]];
-        arr[y][x] = 0;
-        while (queue.length) {
-          let [curY, curX] = queue.shift();
-          for (let k = 0; k < 4; k++) {
-            let nX = curX + dx[k];
-            let nY = curY + dy[k];
-            //범위를 나가거나 방문한 곳이라면 패스
-            if (
-              nX < 0 ||
-              nY < 0 ||
-              nX >= xLen ||
-              nY >= yLen ||
-              arr[nY][nX] === 0
-            )
-              continue;
-            queue.push([nY, nX]);
-            arr[nY][nX] = 0;
-          }
-        }
+      if (!visited[y][x]) {
+        visited[y][x] = true;
+        DFS(y, x);
+        rnt++;
       }
     }
   }
-  result += resultCount;
-  result += '\n';
+  console.log(rnt);
 }
-
-return console.log(result);
