@@ -1,35 +1,45 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Main {
-    static final int maxN = 1004;
+    static final int INF = 987654321;
     static int N;
+    static final int maxN = 1004;
     static int[][] arr = new int[maxN][3];
-    static int[][] costArr = new int[maxN][3];
+    static int[][] dp = new int[maxN][3];
+
+    public static int solution(int idx, int choice) {
+        if (dp[idx][choice] != INF) {
+            return dp[idx][choice];
+        }
+        if (idx == 0) {
+            return arr[idx][choice];
+        }
+        for (int i = 0; i < 3; i++) {
+            if (i == choice) continue;
+            dp[idx][choice] = Math.min(dp[idx][choice], solution(idx - 1, i));
+        }
+        dp[idx][choice] += arr[idx][choice];
+        return dp[idx][choice];
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
+        
         N = sc.nextInt();
         for (int i = 0; i < N; i++) {
-            costArr[i][0] = sc.nextInt();
-            costArr[i][1] = sc.nextInt();
-            costArr[i][2] = sc.nextInt();
+            for (int k = 0; k < 3; k++) {
+                arr[i][k] = sc.nextInt();
+            }
         }
 
-        arr[0][0] = costArr[0][0];
-        arr[0][1] = costArr[0][1];
-        arr[0][2] = costArr[0][2];
-
-        for (int i = 1; i < N; i++) {
-            arr[i][0] = Math.min(arr[i - 1][1], arr[i - 1][2]) + costArr[i][0];
-            arr[i][1] = Math.min(arr[i - 1][0], arr[i - 1][2]) + costArr[i][1];
-            arr[i][2] = Math.min(arr[i - 1][0], arr[i - 1][1]) + costArr[i][2];
+        for (int i = 0; i < maxN; i++) {
+            Arrays.fill(dp[i], INF);
         }
 
-        int minResult = Math.min(arr[N - 1][0], arr[N - 1][1]);
-        minResult = Math.min(minResult, arr[N - 1][2]);
-
-        System.out.println(minResult);
+        int result = Math.min(Math.min(solution(N - 1, 0), solution(N - 1, 1)), solution(N - 1, 2));
+        System.out.println(result);
+        
         sc.close();
     }
 }
