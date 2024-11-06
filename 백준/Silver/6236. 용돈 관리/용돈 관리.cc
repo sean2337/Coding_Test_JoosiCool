@@ -1,48 +1,62 @@
 #include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
 
-ll N, M;
-ll arr[300004];
+int N, M;
+const int maxN = 300004;
+int arr[maxN];
+int l = 1;
+int r;
 
-bool check(ll mid) {
-    ll count = 1;
-    ll sum = mid;
-    for (int i = 0; i < N; i++) {
-        if (sum - arr[i] >=0) {
-            sum -= arr[i];
-        }
-        else {
-            count++;
-            sum = mid;
-            sum -= arr[i];
-            if (sum < 0) return false;
-        }
-    }
-    return M>=count;
+bool isPossible(int num) {
+	int cnt = 1;
+	int remainMoney = num;
+
+	for (int i = 0; i < N; i++) {
+		if (arr[i] > num) return false;
+		if (remainMoney - arr[i] >= 0) {
+			remainMoney -= arr[i];
+		}
+		else {
+			remainMoney = num;
+			remainMoney -= arr[i];
+			cnt++;
+			if (cnt > M) return false;
+		}
+	}
+	return true;
 }
 
 
 int main() {
-    cin >> N >> M;
-    ll l = 1, r = 0;
-    for (int i = 0; i < N; i++) {
-        cin >> arr[i];
-        r+=arr[i];
-    }
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 
-    ll minResult = numeric_limits<ll>::max();
-    while (l <= r) {
-        ll mid = (l + r) / 2;
-        if (check(mid)) {
-            minResult = min(minResult, mid);
-            r = mid - 1;
-        }
-        else {
-            l = mid + 1;
-        }
-    }
-    cout << minResult;
+	cin >> N >> M;
 
-    return 0;
+	for (int i = 0; i < N; i++) {
+		cin >> arr[i];
+		r += arr[i];
+	}
+
+	int minResult = numeric_limits<int>::max();
+
+	while (l <= r) {
+		int mid = (l + r) / 2;
+
+		bool check = isPossible(mid);
+
+		// 가능한 경우라면 
+		if (check) {
+			r = mid - 1;
+			minResult = min(minResult, mid);
+		}
+		else {
+			l = mid + 1;
+		}
+	}
+
+	cout << minResult;
+
+	return 0;
 }
